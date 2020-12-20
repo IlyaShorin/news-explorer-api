@@ -18,7 +18,7 @@ app.use(
   '*',
   cors({
     origin: 'https://mestoapp.students.nomoredomains.rocks',
-  })
+  }),
 );
 app.use(helmet());
 mongoose.connect('mongodb://localhost:27017/newsexplorerdb', {
@@ -41,7 +41,7 @@ app.post(
       name: Joi.string().min(2).max(30),
     }),
   }),
-  newUser
+  newUser,
 );
 app.post(
   '/signin',
@@ -51,7 +51,7 @@ app.post(
       password: Joi.string().required(),
     }),
   }),
-  login
+  login,
 );
 
 app.use(auth);
