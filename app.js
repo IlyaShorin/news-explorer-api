@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
+const cors = require('cors');
 const auth = require('./middlewares/auth');
 const { newUser, login } = require('./controllers/users');
 const router = require('./routes/index');
@@ -12,6 +13,12 @@ const { limiter } = require('./middlewares/limiter');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+app.use(
+  '*',
+  cors({
+    origin: 'https://mestoapp.students.nomoredomains.rocks',
+  })
+);
 app.use(helmet());
 mongoose.connect('mongodb://localhost:27017/newsexplorerdb', {
   useNewUrlParser: true,
@@ -33,7 +40,7 @@ app.post(
       name: Joi.string().min(2).max(30),
     }),
   }),
-  newUser,
+  newUser
 );
 app.post(
   '/signin',
@@ -43,7 +50,7 @@ app.post(
       password: Joi.string().required(),
     }),
   }),
-  login,
+  login
 );
 
 app.use(auth);
